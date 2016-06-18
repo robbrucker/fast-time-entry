@@ -1,4 +1,9 @@
+#Using the app
+[link to app](http://rawgit.com/robbrucker/fast-time-entry/master/source/build/index.html#/home)
 
+1. Enter your API key and teamwork url
+2. Once logged in, select the project where you wish to log time
+3. Time can be logged for this week or the previous week.
 
 
 #Install instructions
