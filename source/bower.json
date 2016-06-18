@@ -1,0 +1,18 @@
+{
+  "name": "ng-boilerplate",
+  "version": "0.3.2",
+  "devDependencies": {
+    "angular": "~1.2",
+    "angular-mocks": "~1.2",
+    "bootstrap": "~3.1",
+    "angular-bootstrap": "~0.10.0",
+    "angular-ui-router": "~0.2"
+  },
+  "dependencies": {
+    "restangular": "~1.5.1",
+    "angular-dynforms": "~0.0.4",
+    "angular-schema-form": "~0.8.11",
+    "moment": "~2.10.6",
+    "angular-growl": "~0.4.0"
+  }
+}

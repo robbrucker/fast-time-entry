@@ -1,0 +1,45 @@
+<div ng-if="hasToken">
+    <button class="btn-primary" ng-click="logout()">Log out</button>
+    <h1>Log your time faster</h1>
+    <p>This app assumes all items entered are billable.</p>
+    <h3>Select project</h3>
+    <select ng-options="projects as projects.name for projects in projects track by projects.id" ng-model="item" ng-change="getTasks(item)"></select>
+    <p ng-show="tasks">
+        <button ng-if="timeFrame == 'CURRENT'" class="btn-primary" ng-click="changeTimeFrame('LAST_WEEK')">Show last week</button>
+        <button ng-if="timeFrame == 'LAST_WEEK'" class="btn-primary"ng-click="changeTimeFrame('CURRENT')">Show this week</button>
+        <table>
+            <thead ng-show="tasks">
+            <th>Task List Item</th>
+            <th>Task Name</th>
+            <th>Monday ({{monObj.date._d | date:'MM-dd-yyyy'}})</th>
+            <th>Tuesday ({{tueObj.date._d | date:'MM-dd-yyyy'}})</th>
+            <th>Wednesday ({{wedObj.date._d | date:'MM-dd-yyyy'}})</th>
+            <th>Thursday ({{thurObj.date._d | date:'MM-dd-yyyy'}})</th>
+            <th>Friday ({{friObj.date._d | date:'MM-dd-yyyy'}})</th>
+            <th>Saturday ({{satObj.date._d | date:'MM-dd-yyyy'}})</th>
+            <th>Sunday ({{sunObj.date._d | date:'MM-dd-yyyy'}})</th>
+            </thead>
+            <tr ng-repeat="a in tasks">
+                <td>{{a['todo-list-name']}}</td>
+                <td>{{a.content}}</td>
+                <td><input type="number" ng-model="monObj[a.facadeId]" /></td>
+                <td><input type="number" ng-model="tueObj[a.facadeId]" /></td>
+                <td><input type="number" ng-model="wedObj[a.facadeId]" /></td>
+                <td><input type="number" ng-model="thurObj[a.facadeId]" /></td>
+                <td><input type="number" ng-model="friObj[a.facadeId]" /></td>
+                <td><input type="number" ng-model="satObj[a.facadeId]" /></td>
+                <td><input type="number" ng-model="sunObj[a.facadeId]" /></td>
+            </tr>
+    </table>
+    <button ng-click="submitTimeForTask()" ng-show="tasks" class="btn btn-default">Submit</button>
+    </p>
+    <div growl></div>
+</div>
+<div ng-if="!hasToken">
+    <label>Enter your API Key</label>
+    <input ng-model="apiKey" type="password" />
+    <label>Enter Teamwork URL (yourorg.teamworkpm.net)</label>
+    <input ng-model="teamworkUrl" type="text" value="https://rtslabs.teamwork.com" />
+    <button ng-click="submitKey(apiKey, teamworkUrl)" class="btn-primary">Submit</button>
+    <p><a href="http://developer.teamwork.com/enabletheapiandgetyourkey" target="_new">How to get your Teamwork API Key</a></p>
+</div>
