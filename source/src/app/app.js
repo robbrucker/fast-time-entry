@@ -4,7 +4,8 @@ angular.module( 'ngBoilerplate', [
   'ngBoilerplate.home',
   'ngBoilerplate.about',
   'ui.router',
-    'angularMoment'
+  'angularMoment',
+  'local-storage.service'
 ])
 
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {

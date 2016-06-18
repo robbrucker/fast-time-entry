@@ -21,16 +21,27 @@ angular.module( 'ngBoilerplate.home', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'HomeCtrl', function HomeController( $scope, $http, moment, growl ) {
+.controller( 'HomeCtrl', function HomeController( $scope, $http, moment, growl, localStorageService ) {
 
     //for connecting with API
-    $scope.hasToken = localStorage.getItem('apiKey') ? true : false;
-    $scope.apiKey = $scope.hasToken ? localStorage.getItem('apiKey') : '';
+
+    $scope.apiKey = localStorageService.getApiKey();
+    if(localStorageService.hasToken()) {
+        $scope.hasToken = localStorageService.hasToken();
+        initialize();
+    }
+
+
+    //View on-click Functions
+    /**
+     *
+     * @param apiKey
+     * @param apiUrl
+     */
     $scope.submitKey = function(apiKey, apiUrl) {
         if(apiKey && apiUrl) {
-            $scope.hasToken = true;
-            localStorage.setItem('apiKey', apiKey);
-            localStorage.setItem('apiUrl', apiUrl);
+            localStorageService.modifyStorage(apiKey, apiUrl);
+            $scope.hasToken = localStorageService.hasToken();
             initialize();
         }
         else {
@@ -39,13 +50,7 @@ angular.module( 'ngBoilerplate.home', [
         }
 
     };
-
-    if($scope.hasToken) {
-        initialize();
-    }
-
     $scope.changeTimeFrame = function(timeFrame) {
-        console.log("Changing time frame ", timeFrame);
         $scope.timeFrame = timeFrame;
         initialize();
     };
@@ -53,14 +58,12 @@ angular.module( 'ngBoilerplate.home', [
 
 
     function initialize() {
-        if(localStorage.getItem('apiKey')) {
-
-
+        if(localStorageService.hasToken()) {
         $scope.getProjects = function() {
                 //get projects
                 $http({
                     method: 'GET',
-                    url: localStorage.getItem('apiUrl')+'/projects.json'
+                    url: localStorageService.getApiUrl()+'/projects.json'
                 }).then(function successCallback(response) {
                     $scope.projects = response.data.projects;
                 }, function errorCallback(response) {
@@ -71,13 +74,13 @@ angular.module( 'ngBoilerplate.home', [
                 //get projects
                 $http({
                     method: 'GET',
-                    url: localStorage.getItem('apiUrl')+'/me.json'
+                    url: localStorageService.getApiUrl()+'/me.json'
                 }).then(function successCallback(response) {
                     $scope.me = response.data.person.id;
                 }, function errorCallback(response) {
                 });
             };
-            var base64 = btoa(localStorage.getItem('apiKey') + ":password");
+            var base64 = btoa(localStorageService.getApiKey() + ":password");
             $http.defaults.headers.common['Authorization'] = 'Basic ' + base64;
 
             /**
@@ -98,7 +101,7 @@ angular.module( 'ngBoilerplate.home', [
                 $scope.projectId = projectId.id;
                 $http({
                     method: 'GET',
-                    url: localStorage.getItem('apiUrl')+'/projects/'+projectId.id+'/tasks.json'
+                    url: localStorageService.getApiUrl()+'/projects/'+projectId.id+'/tasks.json'
                 }).then(function successCallback(response) {
                     $scope.tasks = response.data['todo-items'];
                     _.each($scope.tasks, function(task) {
@@ -115,9 +118,6 @@ angular.module( 'ngBoilerplate.home', [
             else {
                 loadTime('CURRENT');
             }
-        }
-        else {
-            $scope.hasToken = false;
         }
     }
 
@@ -163,7 +163,6 @@ angular.module( 'ngBoilerplate.home', [
                       if (dayDetail && key != 'date') {
                           var theKeyInt = key;
                           var cleanDate = moment(specificDate).format('YYYYMMDD');
-                          console.log("Clean date is ", cleanDate);
                           var data = {
                               "time-entry": {
                                   "description": "From API",
@@ -176,8 +175,8 @@ angular.module( 'ngBoilerplate.home', [
                               }
                           };
                             //do the post
-                          var fullUrl = localStorage.getItem('apiUrl') + '/tasks/' + theKeyInt.toString() + '/time_entries.json';
-                          $http.post(localStorage.getItem('apiUrl')+'/tasks/'+theKeyInt.toString()+'/time_entries.json', data).then(function(success) {
+                          var fullUrl = localStorageService.getApiUrl() + '/tasks/' + theKeyInt.toString() + '/time_entries.json';
+                          $http.post(localStorageService.getApiUrl()+'/tasks/'+theKeyInt.toString()+'/time_entries.json', data).then(function(success) {
                                 console.log("Success", success);
                               growl.addSuccessMessage("Successfully sent your time to teamwork");
                           }, function(err) {
@@ -193,7 +192,7 @@ angular.module( 'ngBoilerplate.home', [
 
       };
     $scope.logout = function() {
-        localStorage.removeItem('apiKey');
+        localStorageService.removeApiKey();
         initialize();
     };
 
