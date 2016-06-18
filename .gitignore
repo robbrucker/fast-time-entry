@@ -8,7 +8,7 @@
 .idea/copyright/profiles_settings.xml
 /source/bower_components/*
 /source/bin/*
-/source/build/*
+
 /source/karma/*
 /source/node_modules/*
 /source/vendor/*
