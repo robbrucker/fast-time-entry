@@ -47,7 +47,7 @@ grunt watch
 ```
 
 
-<p>The index.html file at the root of the project is to use Github to serve the app. It redirects to the build folder. The build file being included is also included to use Github to serve the app.  </p>
+<p>The build folder is included to serve the app via github.  </p>
 
 
 **Needs**
