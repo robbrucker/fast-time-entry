@@ -5,23 +5,24 @@ angular.module( 'ngBoilerplate', [
   'ngBoilerplate.about',
   'ui.router',
   'angularMoment',
-  'local-storage.service'
+  'local-storage.service',
+  'api.service'
 ])
 
-.config( ["$stateProvider", "$urlRouterProvider", function myAppConfig ( $stateProvider, $urlRouterProvider ) {
+.config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
   $urlRouterProvider.otherwise( '/home' );
-}])
+})
 
 .run( function run () {
 })
 
-.controller( 'AppCtrl', ["$scope", "$location", function AppCtrl ( $scope, $location ) {
+.controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if ( angular.isDefined( toState.data.pageTitle ) ) {
       $scope.pageTitle = toState.data.pageTitle + ' | ngBoilerplate' ;
     }
   });
-}])
+})
 
 ;
 

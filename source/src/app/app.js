@@ -5,7 +5,8 @@ angular.module( 'ngBoilerplate', [
   'ngBoilerplate.about',
   'ui.router',
   'angularMoment',
-  'local-storage.service'
+  'local-storage.service',
+  'api.service'
 ])
 
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
