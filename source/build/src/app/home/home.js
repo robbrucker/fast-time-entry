@@ -15,7 +15,7 @@ angular.module( 'ngBoilerplate.home', [
     data:{ pageTitle: 'Home' }
   });
 })
-.controller( 'HomeCtrl', function HomeController( $scope, $http, moment, growl, localStorageService, apiService ) {
+.controller( 'HomeCtrl', function HomeController( $scope, $http, moment, growl, localStorageService, apiService, timeSubmitService) {
 
     /**
      * Manage authentication
@@ -103,35 +103,15 @@ angular.module( 'ngBoilerplate.home', [
         initialize();
     };
       $scope.submitTimeForTask = function() {
-          var dateHolder = [];
-          dateHolder.push($scope.monObj, $scope.tueObj, $scope.wedObj, $scope.thurObj, $scope.friObj, $scope.satObj, $scope.sunObj);
-          _.each(dateHolder, function(day) {
-              var objKeys = _.keys(day);
-              if(objKeys.length > 1) {
-                  var specificDate = day.date;
-                  _.each(day, function (dayDetail, key) {
-                      if (dayDetail && key != 'date') {
-                          var theKeyInt = key;
-                          var cleanDate = moment(specificDate).format('YYYYMMDD');
-                          var data = {
-                              "time-entry": {
-                                  "description": "From API",
-                                  "person-id": $scope.me,
-                                  "date": cleanDate.toString(),
-                                  "time": "09:00",
-                                  "hours": dayDetail.toString(),
-                                  "minutes": "0",
-                                  "isbillable": "1"
-                              }
-                          };
-                          apiService.postTask(theKeyInt, data).then(function(results) {
-                              growl.addSuccessMessage("Successfully sent your time to teamwork");
-                          });
-                      }
-                  });
-              }
-          });
-          $scope.tasks = null;
+            var dateHolder = [];
+            dateHolder.push($scope.monObj, $scope.tueObj, $scope.wedObj, $scope.thurObj, $scope.friObj, $scope.satObj, $scope.sunObj);
+            timeSubmitService.submitTime(dateHolder, $scope.me).then(function(result) {
+                growl.addSuccessMessage("Successfully sent your time to teamwork");
+                $scope.tasks = null;
+                $scope.projects = null;
+                initialize();
+            });
+
       };
     $scope.logout = function() {
         localStorageService.removeApiKey();
