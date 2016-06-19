@@ -58,6 +58,9 @@ angular.module( 'ngBoilerplate.home', [
                 loadTime('CURRENT');
             }
         }
+        else {
+            $scope.hasToken = false;
+        }
     }
     function loadTime(timeFrame) {
         var startOfWeek = moment();
