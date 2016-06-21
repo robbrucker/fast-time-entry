@@ -275,12 +275,17 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "<div ng-if=\"hasToken\">\n" +
     "    <button class=\"btn-primary\" ng-click=\"logout()\">Log out</button>\n" +
     "    <h1>Log your time faster</h1>\n" +
-    "    <p>This app assumes all items entered are billable.</p>\n" +
+    "    <p>This app assumes all items entered are billable.\n" +
+    "    <br />\n" +
+    "    <b>Time:</b> Enter any time for the current week, or the previous week.</p>\n" +
+    "    <br />\n" +
+    "    <b>Description:</b> Click the toggle description to enter a description for your time. It is not required. Text saying \"From api\" will be entered as description.\n" +
     "    <h3>Select project</h3>\n" +
     "    <select ng-options=\"projects as projects.name for projects in projects track by projects.id\" ng-model=\"item\" ng-change=\"getTasks(item)\"></select>\n" +
     "    <p ng-show=\"tasks\">\n" +
     "        <button ng-if=\"timeFrame == 'CURRENT'\" class=\"btn-primary\" ng-click=\"changeTimeFrame('LAST_WEEK')\">Show last week</button>\n" +
     "        <button ng-if=\"timeFrame == 'LAST_WEEK'\" class=\"btn-primary\"ng-click=\"changeTimeFrame('CURRENT')\">Show this week</button>\n" +
+    "        <button class=\"btn-primary\"ng-click=\"toggleDescription()\">Toggle Description</button>\n" +
     "        <table>\n" +
     "            <thead ng-show=\"tasks\">\n" +
     "            <th>Task List Item</th>\n" +
@@ -296,13 +301,46 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "            <tr ng-repeat=\"a in tasks\">\n" +
     "                <td>{{a['todo-list-name']}}</td>\n" +
     "                <td>{{a.content}}</td>\n" +
-    "                <td><input type=\"number\" ng-model=\"monObj[a.facadeId]\" /></td>\n" +
-    "                <td><input type=\"number\" ng-model=\"tueObj[a.facadeId]\" /></td>\n" +
-    "                <td><input type=\"number\" ng-model=\"wedObj[a.facadeId]\" /></td>\n" +
-    "                <td><input type=\"number\" ng-model=\"thurObj[a.facadeId]\" /></td>\n" +
-    "                <td><input type=\"number\" ng-model=\"friObj[a.facadeId]\" /></td>\n" +
-    "                <td><input type=\"number\" ng-model=\"satObj[a.facadeId]\" /></td>\n" +
-    "                <td><input type=\"number\" ng-model=\"sunObj[a.facadeId]\" /></td>\n" +
+    "                <td>\n" +
+    "                    <input type=\"number\" ng-model=\"monObj[a.facadeId]\" />\n" +
+    "\n" +
+    "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
+    "                    <textarea ng-model=\"monObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    <input type=\"number\" ng-model=\"tueObj[a.facadeId]\" />\n" +
+    "\n" +
+    "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
+    "                    <textarea ng-model=\"tueObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "                </td>\n" +
+    "                <td><input type=\"number\" ng-model=\"wedObj[a.facadeId]\" />\n" +
+    "\n" +
+    "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
+    "                    <textarea ng-model=\"wedObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "                </td>\n" +
+    "                <td><input type=\"number\" ng-model=\"thurObj[a.facadeId]\" />\n" +
+    "\n" +
+    "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
+    "                    <textarea ng-model=\"thurObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    <input type=\"number\" ng-model=\"friObj[a.facadeId]\" />\n" +
+    "\n" +
+    "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
+    "                    <textarea ng-model=\"friObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    <input type=\"number\" ng-model=\"satObj[a.facadeId]\" />\n" +
+    "\n" +
+    "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
+    "                    <textarea ng-model=\"satObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    <input type=\"number\" ng-model=\"sunObj[a.facadeId]\" />\n" +
+    "\n" +
+    "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
+    "                    <textarea ng-model=\"sunObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "                </td>\n" +
     "            </tr>\n" +
     "    </table>\n" +
     "    <button ng-click=\"submitTimeForTask()\" ng-show=\"tasks\" class=\"btn btn-default\">Submit</button>\n" +

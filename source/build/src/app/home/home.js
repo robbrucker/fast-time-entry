@@ -46,6 +46,7 @@ angular.module( 'ngBoilerplate.home', [
                     $scope.tasks = response.data['todo-items'];
                     _.each($scope.tasks, function(task) {
                         task.facadeId = task.id.toString();
+                        task.descId = task.id.toString() + "_textbox";
                     });
                     $scope.tasks = _.sortBy($scope.tasks, 'todo-list-name');
                 });
@@ -119,6 +120,11 @@ angular.module( 'ngBoilerplate.home', [
     $scope.logout = function() {
         localStorageService.removeApiKey();
         initialize();
+    };
+
+    $scope.hideDescription = true;
+    $scope.toggleDescription = function() {
+        $scope.hideDescription = !$scope.hideDescription;
     };
     //end view on-click functions
 });

@@ -13,11 +13,12 @@ app.factory('timeSubmitService', function(localStorageService, $http, apiService
                     var specificDate = day.date;
                     _.each(day, function (dayDetail, key) {
                         if (dayDetail && key != 'date') {
-                            var theKeyInt = key;
+                            var taskId = key;
+                            var descriptionKey = key + "_textbox";
                             var cleanDate = moment(specificDate).format('YYYYMMDD');
                             var data = {
                                 "time-entry": {
-                                    "description": "From API",
+                                    "description": day && day[descriptionKey] ? day[descriptionKey] : "From API",
                                     "person-id": userId,
                                     "date": cleanDate.toString(),
                                     "time": "09:00",
@@ -26,7 +27,7 @@ app.factory('timeSubmitService', function(localStorageService, $http, apiService
                                     "isbillable": "1"
                                 }
                             };
-                            apiService.postTask(theKeyInt, data).then(function(results) {
+                            apiService.postTask(taskId, data).then(function(results) {
                                 allTime.push(results);
 
                             });
