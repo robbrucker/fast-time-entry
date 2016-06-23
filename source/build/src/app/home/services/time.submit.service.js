@@ -15,6 +15,7 @@ app.factory('timeSubmitService', function(localStorageService, $http, apiService
                         if (dayDetail && key != 'date') {
                             var taskId = key;
                             var descriptionKey = key + "_textbox";
+                            var billableId = key + "_billableId";
                             var cleanDate = moment(specificDate).format('YYYYMMDD');
                             var data = {
                                 "time-entry": {
@@ -24,7 +25,7 @@ app.factory('timeSubmitService', function(localStorageService, $http, apiService
                                     "time": "09:00",
                                     "hours": dayDetail.toString(),
                                     "minutes": "0",
-                                    "isbillable": "1"
+                                    "isbillable": day[billableId] === true ? "1" : "0"
                                 }
                             };
                             apiService.postTask(taskId, data).then(function(results) {
