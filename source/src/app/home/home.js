@@ -47,6 +47,8 @@ angular.module( 'ngBoilerplate.home', [
                     _.each($scope.tasks, function(task) {
                         task.facadeId = task.id.toString();
                         task.descId = task.id.toString() + "_textbox";
+                        task.billableFlag = true;
+                        task.billableId = task.id.toString() + "_billableId";
                     });
                     $scope.tasks = _.sortBy($scope.tasks, 'todo-list-name');
                 });
@@ -125,6 +127,10 @@ angular.module( 'ngBoilerplate.home', [
     $scope.hideDescription = true;
     $scope.toggleDescription = function() {
         $scope.hideDescription = !$scope.hideDescription;
+    };
+
+    $scope.timeBillable = function(isBillable, dateObj, taskObj) {
+        dateObj[taskObj.billableId] = isBillable;
     };
     //end view on-click functions
 });

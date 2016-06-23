@@ -275,9 +275,8 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "<div ng-if=\"hasToken\">\n" +
     "    <button class=\"btn-primary\" ng-click=\"logout()\">Log out</button>\n" +
     "    <h1>Log your time faster</h1>\n" +
-    "    <p>This app assumes all items entered are billable.\n" +
     "    <br />\n" +
-    "    <b>Time:</b> Enter any time for the current week, or the previous week.</p>\n" +
+    "    <b>Time:</b> Enter any time for the current week, or the previous week. When you enter time, you will have the option to make billable. Time is non billable by default. </p>\n" +
     "    <br />\n" +
     "    <b>Description:</b> Click the toggle description to enter a description for your time. It is not required. Text saying \"From api\" will be entered as description.\n" +
     "    <h3>Select project</h3>\n" +
@@ -302,44 +301,66 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "                <td>{{a['todo-list-name']}}</td>\n" +
     "                <td>{{a.content}}</td>\n" +
     "                <td>\n" +
-    "                    <input type=\"number\" ng-model=\"monObj[a.facadeId]\" />\n" +
+    "\n" +
+    "                    <input type=\"number\" ng-model=\"monObj[a.facadeId]\" ng-click=\"timeBillable(true, monObj, a)\" />\n" +
     "\n" +
     "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
     "                    <textarea ng-model=\"monObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"monObj[a.facadeId] && !monObj[a.billableId]\" ng-model=\"monObj[a.billableId]\" ng-click=\"timeBillable(true, monObj, a)\">Make billable</button>\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"monObj[a.facadeId] && monObj[a.billableId]\" ng-model=\"monObj[a.billableId]\"   ng-click=\"timeBillable(false, monObj, a)\">Make non billable</button>\n" +
     "                </td>\n" +
     "                <td>\n" +
-    "                    <input type=\"number\" ng-model=\"tueObj[a.facadeId]\" />\n" +
+    "                    <input type=\"number\" ng-model=\"tueObj[a.facadeId]\" ng-model=\"monObj[a.facadeId]\" ng-click=\"timeBillable(true, tueObj, a)\"  />\n" +
     "\n" +
     "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
     "                    <textarea ng-model=\"tueObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"tueObj[a.facadeId] && !tueObj[a.billableId]\" ng-model=\"tueObj[a.billableId]\" ng-click=\"timeBillable(true, tueObj, a)\">Make billable</button>\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"tueObj[a.facadeId] && tueObj[a.billableId]\" ng-model=\"tueObj[a.billableId]\"   ng-click=\"timeBillable(false, tueObj, a)\">Make non billable</button>\n" +
     "                </td>\n" +
-    "                <td><input type=\"number\" ng-model=\"wedObj[a.facadeId]\" />\n" +
+    "                <td><input type=\"number\" ng-model=\"wedObj[a.facadeId]\" ng-click=\"timeBillable(true, wedObj, a)\" />\n" +
     "\n" +
     "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
     "                    <textarea ng-model=\"wedObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"wedObj[a.facadeId] && !wedObj[a.billableId]\" ng-model=\"wedObj[a.billableId]\" ng-click=\"timeBillable(true, wedObj, a)\">Make billable</button>\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"wedObj[a.facadeId] && wedObj[a.billableId]\" ng-model=\"wedObj[a.billableId]\"   ng-click=\"timeBillable(false, wedObj, a)\">Make non billable</button>\n" +
     "                </td>\n" +
-    "                <td><input type=\"number\" ng-model=\"thurObj[a.facadeId]\" />\n" +
+    "                <td><input type=\"number\" ng-model=\"thurObj[a.facadeId]\" ng-click=\"timeBillable(true, thurObj, a)\" />\n" +
     "\n" +
     "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
     "                    <textarea ng-model=\"thurObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"thurObj[a.facadeId] && !thurObj[a.billableId]\" ng-model=\"thurObj[a.billableId]\" ng-click=\"timeBillable(true, thurObj, a)\">Make billable</button>\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"thurObj[a.facadeId] && thurObj[a.billableId]\" ng-model=\"thurObj[a.billableId]\"   ng-click=\"timeBillable(false, thurObj, a)\">Make non billable</button>\n" +
     "                </td>\n" +
     "                <td>\n" +
-    "                    <input type=\"number\" ng-model=\"friObj[a.facadeId]\" />\n" +
+    "                    <input type=\"number\" ng-model=\"friObj[a.facadeId]\" ng-click=\"timeBillable(true, friObj, a)\" />\n" +
     "\n" +
     "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
     "                    <textarea ng-model=\"friObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"friObj[a.facadeId] && !friObj[a.billableId]\" ng-model=\"friObj[a.billableId]\" ng-click=\"timeBillable(true, friObj, a)\">Make billable</button>\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"friObj[a.facadeId] && friObj[a.billableId]\" ng-model=\"friObj[a.billableId]\"   ng-click=\"timeBillable(false, friObj, a)\">Make non billable</button>\n" +
     "                </td>\n" +
     "                <td>\n" +
-    "                    <input type=\"number\" ng-model=\"satObj[a.facadeId]\" />\n" +
+    "                    <input type=\"number\" ng-model=\"satObj[a.facadeId]\" ng-click=\"timeBillable(true, satObj, a)\" />\n" +
     "\n" +
     "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
     "                    <textarea ng-model=\"satObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"satObj[a.facadeId] && !satObj[a.billableId]\" ng-model=\"satObj[a.billableId]\" ng-click=\"timeBillable(true, satObj, a)\">Make billable</button>\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"satObj[a.facadeId] && satObj[a.billableId]\" ng-model=\"satObj[a.billableId]\"   ng-click=\"timeBillable(false, satObj, a)\">Make non billable</button>\n" +
     "                </td>\n" +
     "                <td>\n" +
-    "                    <input type=\"number\" ng-model=\"sunObj[a.facadeId]\" />\n" +
+    "                    <input type=\"number\" ng-model=\"sunObj[a.facadeId]\" ng-click=\"timeBillable(true, sunObj, a)\" />\n" +
     "\n" +
     "                    <label ng-if=\"!hideDescription\">Description</label>\n" +
     "                    <textarea ng-model=\"sunObj[a.descId]\" ng-if=\"!hideDescription\"></textarea>\n" +
+    "\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"sunObj[a.facadeId] && !sunObj[a.billableId]\" ng-model=\"sunObj[a.billableId]\" ng-click=\"timeBillable(true, sunObj, a)\">Make billable</button>\n" +
+    "                    <button class=\"btn btn-primary\" ng-if=\"sunObj[a.facadeId] && sunObj[a.billableId]\" ng-model=\"sunObj[a.billableId]\"   ng-click=\"timeBillable(false, sunObj, a)\">Make non billable</button>\n" +
     "                </td>\n" +
     "            </tr>\n" +
     "    </table>\n" +
