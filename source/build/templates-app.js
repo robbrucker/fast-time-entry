@@ -350,7 +350,7 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "<div ng-if=\"!hasToken\">\n" +
     "    <label>Enter your API Key</label>\n" +
     "    <input ng-model=\"apiKey\" type=\"password\" />\n" +
-    "    <label>Enter Teamwork URL (yourorg.teamworkpm.net)</label>\n" +
+    "    <label>Enter Teamwork URL (https://yourorg.teamworkpm.net)</label>\n" +
     "    <input ng-model=\"teamworkUrl\" type=\"text\" value=\"https://rtslabs.teamwork.com\" />\n" +
     "    <button ng-click=\"submitKey(apiKey, teamworkUrl)\" class=\"btn-primary\">Submit</button>\n" +
     "    <p><a href=\"http://developer.teamwork.com/enabletheapiandgetyourkey\" target=\"_new\">How to get your Teamwork API Key</a></p>\n" +
